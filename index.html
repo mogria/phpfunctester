@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>PHP Func Tester</title>
+    
+    <script src="jquery.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+      var arg;
+      $(document).ready(function ()  {
+        arg = $("#args .arg");
+        arg.remove();
+        $(".add").click(function() {
+          var narg = arg.valueOf();
+          narg.appendTo($("#args"));
+        });
+
+        $(".remove").click(function() {
+          $("#args .arg").last().remove();
+        });
+
+        $("input").keyup(post);
+        $("input").change(post);
+
+      }) 
+
+      function post() {
+        console.log($("form").serialize());
+        $.post("backend.php", $("form").serialize(), function(data) {
+          $("#res").html(data);
+        });
+      }
+    </script>
+    
+  </head>
+  <body>
+    <form>
+      <h1>function</h1>
+      <input type="text" name="func" />
+      <div id="args">
+        <h1>Arguments</h1>
+        <div class="arg">
+          <select name="type[]">
+            <option value="string" selected="selected">string</option>
+            <option value="int">int</option>
+            <option value="float">float</option>
+            <option value="double">double</option>
+            <option value="boolean">boolean</option>
+          </select>
+          <input type="text" name="arg[]" />
+        </div>
+      </div>
+      <span class="add">+</span>
+      <span class="remove">-</span>
+    </form>
+    <h1>Result</h1>
+    <pre id="res"></pre>
+  </body>
+</html>
