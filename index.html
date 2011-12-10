@@ -11,21 +11,22 @@
         arg = $("#args .arg");
         arg.remove();
         $(".add").click(function() {
-          var narg = arg.valueOf();
-          narg.appendTo($("#args"));
+          $("#args").append(arg.clone());
+          assignHanndlers();
         });
 
         $(".remove").click(function() {
           $("#args .arg").last().remove();
         });
-
-        $("input").keyup(post);
-        $("input").change(post);
-
+        assignHanndlers();
       }) 
 
+      function assignHanndlers() {
+        $("input").keyup(post);
+        $("input, select").change(post);
+      }
+
       function post() {
-        console.log($("form").serialize());
         $.post("backend.php", $("form").serialize(), function(data) {
           $("#res").html(data);
         });
